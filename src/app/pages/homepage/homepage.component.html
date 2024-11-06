@@ -1,0 +1,32 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container-fluid py-5 bg-light px-5">
+    <div class="row align-items-center">
+        <!-- Left Side: Text and Icons -->
+        <div class="col-lg-6 px-5">
+            <h1 class="display-5 fw-bold mb-3" data-aos="fade-in">
+                {{ mainTitle }}
+            </h1>
+            <p class="mb-4 text-muted">{{ mainDescription }}</p>
+            <div class="d-flex align-items-center mb-4">
+                <!-- Icons with click event binding to update content -->
+                <i class="bi bi-airplane-fill text-success fs-1 me-3 icon-clickable"
+                    (click)="updateContent('on trips.', 'Easily share expenses during trips.', 'travel.png')"></i>
+                <i class="bi bi-house-fill text-primary fs-1 me-3 icon-clickable"
+                    (click)="updateContent('at home.', 'Manage expenses with housemates.', 'house.png')"></i>
+                <i class="bi bi-heart-fill text-danger fs-1 me-3 icon-clickable"
+                    (click)="updateContent('with loved ones.', 'Track shared expenses with friends and family.', 'family.png')"></i>
+                <i class="bi bi-asterisk text-secondary fs-1 icon-clickable"
+                    (click)="updateContent('for groups.', 'Handle group expenses smoothly.', 'group.png')"></i>
+            </div>
+            <button type="button" class="btn btn-primary" routerLink="sign-up">Sign-up</button>
+            <p class="mt-3 text-muted">Free for web.</p>
+        </div>
+
+        <!-- Right Side: Image Display -->
+        <div class="col-lg-6 d-flex justify-content-center">
+            <img [src]="mainImage" class="img-fluid" alt="Main Image" data-aos="fade-in">
+        </div>
+    </div>
+</div>
+

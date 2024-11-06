@@ -1,0 +1,13 @@
+.icon-clickable {
+    cursor: pointer;
+}
+
+.popover-success .popover-body {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.popover-error .popover-body {
+    background-color: #f8d7da;
+    color: #721c24;
+}
