@@ -1,7 +1,7 @@
 <div class="row">
     <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">
         <div class="container-fluid px-5">
-            <a class="navbar-brand fw-semibold text-secondary-emphasis fs-3" href="#" routerLink="">
+            <a class="navbar-brand fw-semibold text-secondary-emphasis fs-3" href="#" routerLink="/user-main/user-dashboard">
                 <i class="bi bi-currency-dollar text-primary"></i> Evenly
             </a>
 
@@ -12,29 +12,29 @@
             </button>
 
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <div class="d-flex">
+                <div class="d-flex align-items-center">
+
+                    <!-- Search Form -->
                     <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                         <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
                     </form>
 
-                    <div class="dropdown text-end">
-                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32"
-                                class="rounded-circle">
+                    <!-- Dropdown Menu -->
+                    <div ngbDropdown class="dropdown text-end mx-5 clickable">
+                        <a ngbDropdownToggle class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                            id="userDropdown" aria-expanded="false">
+                            <img src="user.png" alt="User Profile" width="32" height="32" class="rounded-circle">
                         </a>
-                        <ul class="dropdown-menu text-small">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="#">Settings</a></li>
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+
+                        <ul ngbDropdownMenu aria-labelledby="userDropdown" >
+                            <li><a class="dropdown-item" href="#" routerLink="/user-main/user-profile">Profile</a></li>
+                            
+                            <li><a class="dropdown-item" href="#" (click)="signOut()">Sign out</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
+
         </div>
     </nav>
 </div>

@@ -23,7 +23,7 @@
 </div>
 
 
-<div #overlay class="modal fade" id="logInModel" tabindex="-1" aria-labelledby="logInModelLabel" aria-hidden="true">
+<div #logInModal class="modal fade" id="logInModel" tabindex="-1" aria-labelledby="logInModelLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -55,7 +55,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal" routerLink="user" [disabled]="!password" (click)="logIn()">Log
+                <button type="button" class="btn btn-primary w-100" [disabled]="!password" (click)="logIn()">Log
                     In</button>
             </div>
         </div>

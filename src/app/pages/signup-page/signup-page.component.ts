@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { NavBarComponent } from '../../common/nav-bar-sign/nav-bar.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -36,7 +36,7 @@ export class SignupPageComponent {
     password: ""
   };
 
-  constructor(private http: HttpClient, private userService: UserService) {}
+  constructor(private http: HttpClient, private userService: UserService, private router: Router) {}
 
   @ViewChild('emailMsg') emailMsg!: ElementRef;
   @ViewChild('passwordMsg') passwordMsg!: ElementRef;
@@ -62,6 +62,8 @@ export class SignupPageComponent {
         .subscribe((data) => {
           this.userService.setUser(this.signUser);
           this.signUser = { name: "", email: "", password: "" };
+
+          this.router.navigate(['user-dashboard']);
         });
     }
   }

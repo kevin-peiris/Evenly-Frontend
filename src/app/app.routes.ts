@@ -4,25 +4,39 @@ import { ManageCustomerComponent } from './pages/manage-customer/manage-customer
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
-
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { UserMainComponent } from './pages/user-main/user-main.component';
+import { GroupPageComponent } from './pages/group-page/group-page.component';
 
 export const routes: Routes = [
     {
-        path:"sign-up",
-        component:SignupPageComponent
+        path: '',
+        component: HomepageComponent
     },
     {
-        path:'',
-        component:HomepageComponent
-    },
-
-
-    {
-        path:"user",
-        component:UserDashboardComponent
+        path: 'sign-up',
+        component: SignupPageComponent
     },
     {
-        path:"manage-customer",
-        component:ManageCustomerComponent
+        path: 'user-main',
+        component: UserMainComponent,
+        children: [
+            {
+                path: 'user-profile',
+                component: UserProfileComponent
+            },
+            {
+                path: 'user-dashboard',
+                component: UserDashboardComponent,
+            },
+            {
+                path: 'user-group',
+                component: GroupPageComponent,
+            }
+        ]
+    },
+    {
+        path: '**',
+        redirectTo: '' // Redirect any undefined routes to homepage or a 404 page
     }
 ];

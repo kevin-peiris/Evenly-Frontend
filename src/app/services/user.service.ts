@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
   
-  private userSource = new BehaviorSubject<any>({ name: "", email: "", password: "" });
+  private userSource = new BehaviorSubject<any>({id: "",name: "", email: "", password: "" });
   public currentUser = this.userSource.asObservable();
 
   setUser(user: any) {

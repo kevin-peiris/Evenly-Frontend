@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,12 +15,18 @@ import { UserService } from '../../services/user.service';
 })
 export class NavBarComponent {
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) {}
 
   private userInput: any = {
     email: '',
     password: ''
   };
+
+  @ViewChild('emailMsg') emailMsg!: ElementRef;
+  @ViewChild('passwordMsg') passwordMsg!: ElementRef;
+  @ViewChild('logInModal') logInModal!: ElementRef;
+
+  private user: any = null;
 
   get email() {
     return this.userInput.email;
@@ -39,21 +47,15 @@ export class NavBarComponent {
     }
   }
 
-  callApiWithEmail(email: string) {
-    fetch(`http://localhost:8080/users/${email}`)
-      .then(res => res.json())
-      .then(data => {
-        this.checkUser(data);
-      })
-      .catch(error => {
-        this.checkUser(null);
-      });
+  async callApiWithEmail(email: string) {
+    try {
+      const res = await fetch(`http://localhost:8080/users/${email}`);
+      const data = await res.json();
+      this.checkUser(data);
+    } catch {
+      this.checkUser(null);
+    }
   }
-
-  @ViewChild('emailMsg') emailMsg!: ElementRef;
-  @ViewChild('passwordMsg') passwordMsg!: ElementRef;
-
-  private user: any = null;
 
   checkUser(data: any) {
     if (data == null) {
@@ -66,16 +68,21 @@ export class NavBarComponent {
     }
   }
 
-  logIn() {
-    if (this.password != this.user.password || this.user == null || !this.isValidPassword(this.password)) {
+  async logIn() {
+    if (this.password !== this.user?.password || this.user == null || !this.isValidPassword(this.password)) {
       this.passwordMsg.nativeElement.style.color = 'red';
       this.passwordMsg.nativeElement.innerText = 'Invalid password!';
     } else {
       this.passwordMsg.nativeElement.style.color = 'green';
       this.passwordMsg.nativeElement.innerText = 'LogIn Success.';
+      this.userService.setUser(this.user);
       this.userInput.email = "";
       this.userInput.password = "";
-      this.userService.setUser(this.user);
+
+      const modalInstance = bootstrap.Modal.getInstance(this.logInModal.nativeElement) || 
+                            new bootstrap.Modal(this.logInModal.nativeElement);
+      modalInstance.hide();
+      this.router.navigate(['/user-main/user-dashboard']);
     }
   }
 
@@ -106,14 +113,12 @@ export class NavBarComponent {
     try {
       const response = await fetch(`http://localhost:8080/users/${email}`);
       const data = await response.json();
-
       if (response.ok) {
         this.forgotUser = data;
         this.forgotEmailMsg.nativeElement.style.color = 'green';
         this.forgotEmailMsg.nativeElement.innerText = 'Email Found!';
       } else {
-        this.forgotEmailMsg.nativeElement.style.color = 'red';
-        this.forgotEmailMsg.nativeElement.innerText = 'Email Not Found in the System!';
+        throw new Error('Email Not Found in the System!');
       }
     } catch (error) {
       this.forgotUser = null;
@@ -144,7 +149,7 @@ export class NavBarComponent {
     if (!this.isValidPassword(this.newPassword)) {
       this.newPasswordMsg.nativeElement.style.color = 'red';
       this.newPasswordMsg.nativeElement.innerText = 'Invalid Password!';
-    }else{
+    } else {
       try {
         const response = await fetch(`http://localhost:8080/users/reset-password?email=${this.forgotEmail}&otp=${this.otp}&newPassword=${this.newPassword}`, {
           method: 'POST'

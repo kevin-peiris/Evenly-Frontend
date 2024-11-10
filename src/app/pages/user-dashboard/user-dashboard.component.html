@@ -1,82 +1,131 @@
-<app-nav-bar-user></app-nav-bar-user>
-
 <div class="container-fluid">
     <div class="row">
-        
         <!-- Sidebar -->
         <div class="col-md-3 col-lg-2 sidebar">
-            <h5 class="text-success">Dashboard</h5>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Recent activity</a>
-                </li>
-            </ul>
             <h6 class="text-muted mt-4">GROUPS</h6>
             <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Bambarakanda Trip</a>
+                <li class="nav-item clickable" *ngFor="let group of groupList">
+                    <a class="nav-link text-dark" (click)="goToGroup(group.id)">
+                        {{ group.name }}
+                    </a>
                 </li>
             </ul>
-            <h6 class="text-muted mt-4">FRIENDS</h6>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="#">Marisafernando78</a>
-                </li>
-            </ul>
-            <div class="mt-4">
-                <label>Invite friends</label>
-                <input type="email" class="form-control mb-2" placeholder="Enter an email address">
-                <button class="btn btn-success btn-sm w-100">Send invite</button>
-            </div>
-            <div class="d-flex mt-3">
-                <button class="btn btn-primary btn-sm me-2">Share</button>
-                <button class="btn btn-info btn-sm">Tweet</button>
-            </div>
         </div>
 
         <!-- Main Content -->
         <div class="col-md-6 col-lg-7 main-content">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3>Dashboard</h3>
-                <div>
-                    <button class="btn btn-warning">Add an expense</button>
-                    <button class="btn btn-success">Settle up</button>
-                </div>
             </div>
             <div class="d-flex justify-content-between text-center bg-light p-3 rounded">
                 <div>
-                    <strong>total balance</strong><br>
-                    <span class="text-success">+ $40768.83</span>
+                    <strong>Total Balance</strong><br />
+                    <span [ngClass]="{'text-success': totalBalance >= 0, 'text-danger': totalBalance < 0}">
+                        ${{ totalBalance | number:'1.2-2' }}
+                    </span>
                 </div>
                 <div>
-                    <strong>you owe</strong><br>
-                    <span class="text-danger">$0.00</span>
+                    <strong>You Owe</strong><br />
+                    <span class="text-danger">
+                        ${{ youOwe | number:'1.2-2' }}
+                    </span>
                 </div>
                 <div>
-                    <strong>you are owed</strong><br>
-                    <span class="text-success">$40768.83</span>
+                    <strong>You Are Owed</strong><br />
+                    <span class="text-success">
+                        ${{ youAreOwed | number:'1.2-2' }}
+                    </span>
                 </div>
             </div>
             <div class="mt-4">
                 <h5>YOU OWE</h5>
-                <p class="text-muted">You do not owe anything</p>
+                <ng-container *ngIf="youOweList.length > 0; else noOwe">
+                  <div *ngFor="let owe of youOweList">
+                    <p><strong>{{ owe.member.name }}</strong> - You owe <span class="text-danger">${{ owe.amount | number:'1.2-2' }}</span></p>
+                  </div>
+                </ng-container>
+                <ng-template #noOwe>
+                  <p class="text-muted">You do not owe anything</p>
+                </ng-template>
+              
                 <hr>
+              
                 <h5>YOU ARE OWED</h5>
-                <p><strong>Marisafernando78</strong> owes you <span class="text-success">$40768.83</span></p>
-            </div>
+                <ng-container *ngIf="youAreOwedList.length > 0; else noOwed">
+                  <div *ngFor="let owed of youAreOwedList">
+                    <p><strong>{{ owed.member.name }}</strong> owes you <span class="text-success">${{ owed.amount | number:'1.2-2' }}</span></p>
+                  </div>
+                </ng-container>
+                <ng-template #noOwed>
+                  <p class="text-muted">No one owes you anything</p>
+                </ng-template>
+              </div>
+              
         </div>
 
         <!-- Right Sidebar -->
         <div class="col-md-3 col-lg-3">
             <div class="bg-light p-4 rounded">
-                <h6>GET SPLITWISE PRO!</h6>
-                <p class="text-muted">Subscribe to Splitwise Pro for no ads, currency conversion, charts, search, and more.</p>
-                <button class="btn btn-warning btn-block">Learn more</button>
+                <h6>Create New Group</h6>
+                <p class="text-muted">Create Groups and add Friends to share Expenses.</p>
+                <button class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#addGroupModal">Create
+                    new Group</button>
             </div>
         </div>
+    </div>
+</div>
 
+<!-- New Group Modal -->
+<div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-2 fw-semibold text-secondary-emphasis" id="addGroupModalLabel">
+                    <i class="bi bi-people-fill text-primary"></i> Create New Group
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="groupName" placeholder="Group Name"
+                        [(ngModel)]="group.name" required />
+                    <label for="groupName">Group Name</label>
+                </div>
+
+                <!-- Admin Field -->
+                <div class="form-floating mb-3">
+                    <h6>Admin: {{user.name}}(You)</h6>
+                </div>
+
+                <!-- Add Member Dropdown -->
+                <div class="form-floating mb-3">
+                    <select class="form-select" [(ngModel)]="selectedUserId">
+                        <option *ngFor="let user of userList" [value]="user.id">{{ user.name }}</option>
+                    </select>
+                    <label for="memberDropdown">Add Member</label>
+                </div>
+
+                <button type="button" class="btn btn-outline-primary w-100 mt-2" (click)="addMember()"
+                    [disabled]="!selectedUserId">Add
+                    Member</button>
+
+                <!-- List of Added Members -->
+                <div class="mt-3">
+                    <h6>Members:</h6>
+                    <ul class="list-group">
+                        <li *ngFor="let member of group.members"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ member.name }}
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                (click)="removeMember(member)">Remove</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary w-100" [disabled]="!group.name"
+                    (click)="createGroup()">Create Group</button>
+            </div>
+        </div>
     </div>
 </div>
