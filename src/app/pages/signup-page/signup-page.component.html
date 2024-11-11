@@ -58,6 +58,8 @@
                         <label for="password" class="h5">And here’s my password:</label>
                         <input type="password" class="form-control" id="password" placeholder="Password" name="password"
                             [(ngModel)]="signUser.password" required>
+                            Your password should be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (e.g., &#64;, $, !, %, *, ?, &).
+                            <p class="text mt-3 small"></p>
                     </div>
                     <div #passwordMsg class="mt-1 mx-1 mb-4"></div>
 

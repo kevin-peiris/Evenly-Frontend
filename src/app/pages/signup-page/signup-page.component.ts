@@ -61,7 +61,7 @@ export class SignupPageComponent {
         .subscribe((data) => {
           this.userService.setUser(this.signUser);
           this.signUser = { name: "", email: "", password: "" };
-          this.router.navigate(['user-dashboard']);
+          this.router.navigate(['/user-main/user-dashboard']);
         });
     }
   }

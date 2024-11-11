@@ -21,7 +21,6 @@ export class UserProfileComponent implements OnInit {
   mainImage = 'house.png';
   mainColor = 'text-primary';
 
-
   updateContent(newTitle: string, newDescription: string, newImage: string) {
     this.mainTitle = `Less stress when sharing expenses ${newTitle}`;
     this.mainDescription = newDescription;
