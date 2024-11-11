@@ -15,16 +15,11 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <div class="d-flex align-items-center">
 
-
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                        <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-                    </form>
-
-
                     <div ngbDropdown class="dropdown text-end mx-5 clickable">
                         <a ngbDropdownToggle class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                             id="userDropdown" aria-expanded="false">
                             <img src="user.png" alt="User Profile" width="32" height="32" class="rounded-circle">
+                            {{user.name}}
                         </a>
 
                         <ul ngbDropdownMenu aria-labelledby="userDropdown">
