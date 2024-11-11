@@ -12,7 +12,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-signup-page',
   standalone: true,
-  imports: [RouterLink, NavBarComponent, FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [NavBarComponent, FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './signup-page.component.html',
   styleUrl: './signup-page.component.css'
 })

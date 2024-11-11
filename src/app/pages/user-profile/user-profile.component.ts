@@ -5,7 +5,7 @@ import { NavBarUserComponent } from '../../common/nav-bar-user/nav-bar-user.comp
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [NavBarUserComponent,RouterOutlet],
+  imports: [],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
