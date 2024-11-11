@@ -1,25 +1,25 @@
 <div class="row">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">
-      <div class="container-fluid px-5">
-          <a class="navbar-brand fw-semibold text-secondary-emphasis fs-3" href="#" routerLink="">
-              <i class="bi bi-currency-dollar text-primary"></i> Evenly
-          </a>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">
+        <div class="container-fluid px-5">
+            <a class="navbar-brand fw-semibold text-secondary-emphasis fs-3" href="#" routerLink="">
+                <i class="bi bi-currency-dollar text-primary"></i> Evenly
+            </a>
 
-          <!-- Toggle button for collapsing navbar on small screens -->
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
 
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-              <div class="d-flex">
-                  <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                      data-bs-target="#logInModel">Login</button>
-                  <button type="button" class="btn btn-primary" routerLink="sign-up">Sign-up</button>
-              </div>
-          </div>
-      </div>
-  </nav>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                        data-bs-target="#logInModel">Login</button>
+                    <button type="button" class="btn btn-primary" routerLink="sign-up">Sign-up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>
 
 
@@ -49,8 +49,8 @@
                 <div #passwordMsg class="mt-1 mx-1"></div>
 
                 <div class="text-end mt-3">
-                    <a class="h6 fw-normal" href="#" data-bs-toggle="modal"
-                    data-bs-target="#forgotPasswordModal">Forgot Password</a>
+                    <a class="h6 fw-normal" href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot
+                        Password</a>
                 </div>
 
             </div>
@@ -62,8 +62,9 @@
     </div>
 </div>
 
-<!-- Forgot Password Modal -->
-<div #forgotPasswordModal class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+
+<div #forgotPasswordModal class="modal fade" id="forgotPasswordModal" tabindex="-1"
+    aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -75,7 +76,7 @@
             <div class="modal-body">
                 <h1 class="h5 mb-4 fw-normal mx-3">Forgot Password</h1>
 
-                <!-- Email Field -->
+
                 <div class="form-floating">
                     <input type="email" class="form-control" id="forgotEmail" placeholder="Email address" name="email"
                         [(ngModel)]="forgotEmail" required />
@@ -83,25 +84,28 @@
                 </div>
                 <div #forgotEmailMsg class="mt-1 mx-1"></div>
 
-                <!-- OTP Field -->
+
                 <div class="form-floating mt-3">
-                    <input type="text" class="form-control" id="otp" placeholder="OTP" name="otp" [(ngModel)]="otp" required />
+                    <input type="text" class="form-control" id="otp" placeholder="OTP" name="otp" [(ngModel)]="otp"
+                        required />
                     <label for="otp">OTP</label>
                 </div>
-                <button type="button" class="btn btn-outline-primary w-100 mt-2" [disabled]="!forgotEmail" (click)="sendOtp()">Send OTP</button>
+                <button type="button" class="btn btn-outline-primary w-100 mt-2" [disabled]="!forgotEmail"
+                    (click)="sendOtp()">Send OTP</button>
                 <div #otpMsg class="mt-1 mx-1"></div>
 
-                <!-- New Password Field -->
+
                 <div class="form-floating mt-3">
-                    <input type="password" class="form-control" id="newPassword" placeholder="New Password" name="newPassword"
-                        [(ngModel)]="newPassword" required>
+                    <input type="password" class="form-control" id="newPassword" placeholder="New Password"
+                        name="newPassword" [(ngModel)]="newPassword" required>
                     <label for="newPassword">New Password</label>
                 </div>
                 <div #newPasswordMsg class="mt-1 mx-1 mb-3"></div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary w-100" [disabled]="!otp || !newPassword" (click)="resetPassword()">Reset Password</button>
+                <button type="button" class="btn btn-primary w-100" [disabled]="!otp || !newPassword"
+                    (click)="resetPassword()">Reset Password</button>
             </div>
         </div>
     </div>

@@ -24,7 +24,7 @@ export class HomepageComponent implements OnInit {
   ngOnInit() {
     if (typeof document !== 'undefined') {
       AOS.init({
-        duration: 1000, // Sets the animation duration in milliseconds
+        duration: 1000
       });
     }
   }
@@ -36,4 +36,5 @@ export class HomepageComponent implements OnInit {
   }
   
 }
+
 

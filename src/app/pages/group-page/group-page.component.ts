@@ -69,7 +69,7 @@ export class GroupPageComponent implements OnInit {
     try {
       const usersResponse = await fetch(`http://localhost:8080/users`);
       const users = await usersResponse.json();
-      // Filter out the current user from the user list
+
       this.userList = users.filter((user: any) => user.id !== this.user.id);
     } catch (error) {
       this.userList = [];
@@ -86,35 +86,35 @@ export class GroupPageComponent implements OnInit {
   }
 
   calculateBalances() {
-    // Reset balances
+
     this.totalBalance = 0;
     this.youOwe = 0;
     this.youAreOwed = 0;
 
-    // Iterate through each expense to calculate the user's balances
+
     this.expensesList.forEach(expense => {
-      // Find the current user's role in this expense
+
       const currentUserRole = expense.expenseUsers.find((user: { user: any; userId: number }) => user.user.id === this.user.id);
 
       if (currentUserRole) {
         if (currentUserRole.expenseUserType === 'OWED') {
-          // Current user owes this amount
+
           this.youOwe += currentUserRole.amount;
           this.totalBalance -= currentUserRole.amount;
 
         } else if (currentUserRole.expenseUserType === 'PAID') {
-          // Current user paid the full expense amount; calculate only the amount others owe back to them
 
-          // Sum amounts owed by other users in this expense
+
+
           let amountOwedToCurrentUser = 0;
           expense.expenseUsers.forEach((user: { user: any; expenseUserType: string; amount: number }) => {
             if (user.user.id !== this.user.id && user.expenseUserType === 'OWED') {
-              // Add the amount this user owes to the current user
+
               amountOwedToCurrentUser += user.amount;
             }
           });
 
-          // Only add the amount owed by others to 'youAreOwed' and 'totalBalance'
+
           this.youAreOwed += amountOwedToCurrentUser;
           this.totalBalance += amountOwedToCurrentUser;
         }
@@ -127,25 +127,25 @@ export class GroupPageComponent implements OnInit {
   getMemberBalance(member: any): string {
     let balance = 0;
 
-    // Iterate over all expenses
+
     this.expensesList.forEach(expense => {
-      // Find roles of the current user and the specified member in this expense
+
       const currentUserRole = expense.expenseUsers.find((user: { user: { id: any }; }) => user.user.id === this.user.id);
       const memberRole = expense.expenseUsers.find((user: { user: { id: any }; }) => user.user.id === member.id);
 
-      // Proceed if both the current user and the specified member are involved in this expense
+
       if (currentUserRole && memberRole) {
         if (currentUserRole.expenseUserType === 'PAID' && memberRole.expenseUserType === 'OWED') {
-          // If the current user paid, add the amount that the member owes to the current user
+
           balance += memberRole.amount;
         } else if (currentUserRole.expenseUserType === 'OWED' && memberRole.expenseUserType === 'PAID') {
-          // If the member paid, subtract the amount that the current user owes to the member
+
           balance -= currentUserRole.amount;
         }
       }
     });
 
-    // Format the balance result based on the calculated amount
+
     if (balance > 0) {
       return `Owes you $${balance}`;
     } else if (balance < 0) {
@@ -155,7 +155,7 @@ export class GroupPageComponent implements OnInit {
     }
   }
 
-  
+
 
 
 
@@ -169,7 +169,7 @@ export class GroupPageComponent implements OnInit {
       this.groupService.setGroup(await groupResponse.json());
     } catch (error) {
       alert("Error routing");
-      return; // Exit early if there's an error
+      return;
     }
     this.loadGroupsUsersExpenses();
     this.router.navigate(['/user-main/user-group']);
@@ -218,34 +218,34 @@ export class GroupPageComponent implements OnInit {
   }
 
   getUserRole(expense: any): { role: 'PAID' | 'OWED', amount: number } | null {
-    // Find the entry for the current user in the expense's users list
+
     const currentUserExpense = expense.expenseUsers.find((expUser: any) => expUser.user.id === this.user.id);
 
-    // Determine the role and return the amount if found
+
     if (currentUserExpense) {
       const role = currentUserExpense.expenseUserType === 'PAID' ? 'PAID' : 'OWED';
       const amount = currentUserExpense.amount;
       return { role, amount };
     }
 
-    return null; // Return null if the user has no role in this expense
+    return null;
   }
 
-  selectedExpense: any; // Hold the selected expense data
+  selectedExpense: any;
 
-  // Method to open the expense details modal and set selected expense
+
   openExpenseDetail(expense: any) {
     this.selectedExpense = expense;
   }
 
-  // Method to retrieve names of those who paid
+
   getPayerNames(expense: any): string {
     // Check if expense is defined
     if (!expense || !expense.expenseUsers) {
       return 'No data available';
     }
 
-    // Retrieve names of those who paid
+
     return expense.expenseUsers
       .filter((user: any) => user.expenseUserType === 'PAID')
       .map((user: any) => user.user.name)
@@ -253,17 +253,17 @@ export class GroupPageComponent implements OnInit {
   }
 
 
-  // Method to handle "Settle Up" action
+
   async settleUp(expense: any) {
     console.log('Settling up expense:', expense);
-  
+
     try {
-      // Sending a request to the server to settle the expense for the current user
+
       const response = await fetch(`http://localhost:8080/settleup/expense/${expense.id}/user/${this.user.id}`, {
         method: 'POST',
       });
-  
-      // Check if the response was successful
+
+
       if (response.ok) {
         alert("Expense settled successfully!");
       } else {
@@ -273,11 +273,11 @@ export class GroupPageComponent implements OnInit {
       console.error("Error settling the expense:", error);
       alert("Error settling the expense. Please check your connection.");
     }
-  
-    // Reload groups, users, and expenses to reflect the settled expense
+
+
     await this.loadGroupsUsersExpenses();
   }
-  
+
 
 
 
@@ -288,13 +288,13 @@ export class GroupPageComponent implements OnInit {
 
 
   async addExpense() {
-    // Ensure the group and the expense data is valid
+
     if (!this.group || this.newExpense.amount <= 0 || !this.newExpense.description) {
       alert("Please provide a valid expense description and amount.");
       return;
     }
 
-    // Check validations for custom and percentage splits
+
     if (this.newExpense.splitType === 'PERCENTAGE' && !this.validatePercentages()) {
       alert("Percentages must add up to 100.");
       return;
@@ -318,9 +318,9 @@ export class GroupPageComponent implements OnInit {
 
     try {
       const response = await lastValueFrom(this.http.post("http://localhost:8080/expense", expensePayload, { responseType: 'text' }));
-      alert(response); // Show response message
-      this.loadExpenses(); // Reload the expenses after adding the new one
-      this.resetExpenseForm(); // Reset form after submission
+      alert(response);
+      this.loadExpenses();
+      this.resetExpenseForm();
       this.loadGroupsUsersExpenses();
     } catch (error) {
       console.error("Error adding expense:", error);
@@ -329,11 +329,11 @@ export class GroupPageComponent implements OnInit {
   }
 
 
-  // Additional properties in the component to store custom amounts and percentages
-  customAmounts: { [key: number]: number } = {}; // Keyed by user ID
-  percentages: { [key: number]: number } = {}; // Keyed by user ID
 
-  // Method to set the default percentage values equally across owed users
+  customAmounts: { [key: number]: number } = {};
+  percentages: { [key: number]: number } = {};
+
+
   initializePercentages() {
     const numOwedUsers = this.newExpense.owedBy.length;
     const equalPercentage = 100 / numOwedUsers;
@@ -343,7 +343,7 @@ export class GroupPageComponent implements OnInit {
     });
   }
 
-  // Method to set custom amounts default equally across owed users
+
   initializeCustomAmounts() {
     const equalAmount = this.newExpense.amount / this.newExpense.owedBy.length;
 
@@ -352,13 +352,13 @@ export class GroupPageComponent implements OnInit {
     });
   }
 
-  // Method to validate that percentage splits add up to 100
+
   validatePercentages() {
     const total = Object.values(this.percentages).reduce((sum, val) => sum + val, 0);
     return total === 100;
   }
 
-  // Method to validate that custom amounts add up to the total expense amount
+
   validateCustomAmounts() {
     const total = Object.values(this.customAmounts).reduce((sum, val) => sum + val, 0);
     return total === this.newExpense.amount;
@@ -381,7 +381,7 @@ export class GroupPageComponent implements OnInit {
     try {
       const response = await lastValueFrom(this.http.delete(`http://localhost:8080/expense/${expenseId}`, { responseType: 'text' }));
       alert(response);
-      this.loadExpenses(); // Reload the expenses after deletion
+      this.loadExpenses();
     } catch (error) {
       console.error("Error deleting expense:", error);
       alert("Error deleting expense. Please try again.");
@@ -396,8 +396,8 @@ export class GroupPageComponent implements OnInit {
     this.newExpense.splitType = 'EQUAL';
   }
 
-  selectedPaidUserId: number | null = null; // For selected user in Paid By section
-  selectedOwedUserId: number | null = null; // For selected user in Owed By section
+  selectedPaidUserId: number | null = null;
+  selectedOwedUserId: number | null = null;
 
 
   addPaidUser() {

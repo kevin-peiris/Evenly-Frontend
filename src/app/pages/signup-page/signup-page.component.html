@@ -17,7 +17,7 @@
                         </h1>
                         <p class="mb-4 text-muted">{{ mainDescription }}</p>
                         <div class="d-flex align-items-center mb-4">
-                            <!-- Icons with click event binding to update content -->
+
                             <i class="bi bi-airplane-fill text-success fs-1 me-3 icon-clickable"
                                 (click)="updateContent('on trips.', 'Easily share expenses during trips.', 'travel.png')"></i>
                             <i class="bi bi-house-fill text-primary fs-1 me-3 icon-clickable"
@@ -38,45 +38,35 @@
                     </h1>
                 </div>
                 <form>
-                    <!-- Name Field -->
+
                     <h3 class="font-weight-bold text-secondary mb-3">Introduce Yourself</h3>
                     <div class="form-group mb-4">
                         <label for="name" class="h5">Hi there! My name is</label>
-                        <input type="text" class="form-control" id="name" placeholder="Your Name" name="name" [(ngModel)]="signUser.name" required>
+                        <input type="text" class="form-control" id="name" placeholder="Your Name" name="name"
+                            [(ngModel)]="signUser.name" required>
                     </div>
-            
-                    <!-- Email Field -->
+
+
                     <div class="form-group">
                         <label for="email" class="h5">Here’s my email address:</label>
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email" [(ngModel)]="signUser.email" required>
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com" name="email"
+                            [(ngModel)]="signUser.email" required>
                     </div>
                     <div #emailMsg class="mt-1 mx-1"></div>
-            
-                    <!-- Password Field -->
+
                     <div class="form-group mt-4">
                         <label for="password" class="h5">And here’s my password:</label>
-                        <input type="password" class="form-control" id="password" placeholder="Password" name="password" [(ngModel)]="signUser.password" required>
+                        <input type="password" class="form-control" id="password" placeholder="Password" name="password"
+                            [(ngModel)]="signUser.password" required>
                     </div>
                     <div #passwordMsg class="mt-1 mx-1 mb-4"></div>
-            
-                    <!-- Currency Dropdown -->
-                    <!-- Uncomment this if you need the currency dropdown in the future
-                    <div class="form-group mb-4">
-                        <label for="currency">And here’s the currency that I use:</label>
-                        <select class="form-control" id="currency" name="currency" required>
-                            <option>USD ($)</option>
-                            <option>EUR (€)</option>
-                            <option>GBP (£)</option>
-                            <option>JPY (¥)</option>
-                        </select>
-                    </div>
-                    -->
-            
+
                     <div class="text-center">
-                        <!-- Sign-Up Button -->
-                        <button type="button" class="btn btn-primary btn-block w-50" [disabled]="!signUser.email || !signUser.password" (click)="signUp()">Sign me up!</button>
-            
-                        <!-- Terms and Currency Links -->
+
+                        <button type="button" class="btn btn-primary btn-block w-50"
+                            [disabled]="!signUser.email || !signUser.password" (click)="signUp()">Sign me up!</button>
+
+
                         <p class="text mt-3 small">
                             By signing up, you accept the Terms of Service of Evenly.<br>
                             Current currency is USD; conversion of currencies is being implemented.
@@ -84,11 +74,9 @@
                     </div>
                 </form>
             </div>
-            
+
         </div>
 
 
     </div>
 </div>
-
-

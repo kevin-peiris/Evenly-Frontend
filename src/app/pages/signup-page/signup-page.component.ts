@@ -12,18 +12,17 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-signup-page',
   standalone: true,
-  imports: [RouterLink,NavBarComponent, FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [RouterLink, NavBarComponent, FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './signup-page.component.html',
   styleUrl: './signup-page.component.css'
 })
 export class SignupPageComponent {
-  
+
   mainTitle = 'Less stress when sharing expenses on trips.';
   mainDescription = 'Keep track of your shared expenses and balances with housemates, trips, groups, friends, and family.';
   mainImage = 'house.png';
   mainColor = 'text-primary';
 
-  
   updateContent(newTitle: string, newDescription: string, newImage: string) {
     this.mainTitle = `Less stress when sharing expenses ${newTitle}`;
     this.mainDescription = newDescription;
@@ -36,7 +35,7 @@ export class SignupPageComponent {
     password: ""
   };
 
-  constructor(private http: HttpClient, private userService: UserService, private router: Router) {}
+  constructor(private http: HttpClient, private userService: UserService, private router: Router) { }
 
   @ViewChild('emailMsg') emailMsg!: ElementRef;
   @ViewChild('passwordMsg') passwordMsg!: ElementRef;
@@ -62,7 +61,6 @@ export class SignupPageComponent {
         .subscribe((data) => {
           this.userService.setUser(this.signUser);
           this.signUser = { name: "", email: "", password: "" };
-
           this.router.navigate(['user-dashboard']);
         });
     }
@@ -73,7 +71,7 @@ export class SignupPageComponent {
     return emailRegex.test(email);
   }
 
-  private isValidPassword(password: string): boolean { 
+  private isValidPassword(password: string): boolean {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password);
   }
@@ -83,7 +81,7 @@ export class SignupPageComponent {
       const response = await fetch(`http://localhost:8080/users/${email}`);
       if (response.ok) {
         const data = await response.json();
-        return data !== null; // Assuming a non-null response means the email exists
+        return data !== null;
       }
       return false;
     } catch (error) {

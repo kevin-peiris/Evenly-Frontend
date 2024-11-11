@@ -4,9 +4,9 @@
             <h2 class="mb-3">{{group.name}}</h2>
         </div>
 
-        <!-- Main Content -->
+
         <div class="col-md-6 col-lg-7 main-content">
-            <!-- Group Balance Summary -->
+
             <div class="d-flex justify-content-between text-center bg-light p-3 rounded mb-4">
                 <div>
                     <strong>Total Balance</strong><br />
@@ -36,7 +36,7 @@
     </div>
 
     <div class="row">
-        <!-- Sidebar -->
+
         <div class="col-md-3 col-lg-2 sidebar">
             <h6 class="text-muted mt-4">GROUPS</h6>
             <ul class="nav flex-column">
@@ -51,7 +51,7 @@
         <div class="col">
             <div class="row">
                 <div class="col">
-                    <!-- Group Members Section -->
+
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <h5>Group Members</h5>
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add
@@ -76,7 +76,7 @@
 
             <div class="row">
 
-                <!-- Expenses List -->
+
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <h5>Expenses</h5>
                     <button class="btn btn-outline-primary mx-2" data-bs-toggle="modal"
@@ -107,7 +107,7 @@
             </div>
         </div>
 
-        <!-- Right Sidebar -->
+
         <div class="col-md-3 col-lg-3">
             <div class="bg-light p-4 rounded">
                 <h6>Create New Group</h6>
@@ -122,7 +122,7 @@
 </div>
 
 
-<!-- Expense Detail Modal -->
+
 <div class="modal fade" id="expenseDetailModal" tabindex="-1" aria-labelledby="expenseDetailModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
@@ -151,7 +151,7 @@
                     </li>
                 </ul>
 
-                <!-- Settle Up Button -->
+
                 <button *ngIf="getUserRole(selectedExpense)?.role === 'OWED'" class="btn btn-success w-100"
                     (click)="settleUp(selectedExpense)">Settle Up</button>
             </div>
@@ -161,7 +161,7 @@
 
 
 
-<!-- Add Member Modal -->
+
 <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -170,7 +170,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Add Member Dropdown -->
+
                 <div class="form-floating mb-3">
                     <select class="form-select" [(ngModel)]="selectedUserId">
                         <option *ngFor="let user of userList" [value]="user.id">{{ user.name }}</option>
@@ -178,7 +178,7 @@
                     <label for="memberDropdown">Select Member</label>
                 </div>
 
-                <!-- Add Member Button -->
+
                 <button type="button" class="btn btn-outline-primary w-100 mt-2" (click)="addMember()"
                     [disabled]="!selectedUserId">Add
                     Member</button>
@@ -187,7 +187,7 @@
     </div>
 </div>
 
-<!-- Add Expense Modal -->
+
 <div class="modal fade" id="addExpenseModal" tabindex="-1" aria-labelledby="addExpenseModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -207,7 +207,7 @@
                         placeholder="Amount" />
                 </div>
 
-                <!-- Dropdown for Split Type Selection -->
+
                 <div class="form-group">
                     <label for="expenseSplit">Split Type</label>
                     <select [(ngModel)]="newExpense.splitType" class="form-control" id="expenseSplit">
@@ -217,7 +217,7 @@
                     </select>
                 </div>
 
-                <!-- Dynamic Percentage Inputs (visible when splitType is PERCENTAGE) -->
+
                 <div *ngIf="newExpense.splitType === 'PERCENTAGE'" class="mt-3">
                     <h6>Set Percentages:</h6>
                     <div *ngFor="let user of newExpense.owedBy" class="form-group">
@@ -227,7 +227,7 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Custom Amount Inputs (visible when splitType is CUSTOM) -->
+
                 <div *ngIf="newExpense.splitType === 'CUSTOM'" class="mt-3">
                     <h6>Set Custom Amounts:</h6>
                     <div *ngFor="let user of newExpense.owedBy" class="form-group">
@@ -238,7 +238,7 @@
                 </div>
 
 
-                <!-- Paid By Dropdown -->
+
                 <div class="form-floating mb-3">
                     <select class="form-select" [(ngModel)]="selectedPaidUserId">
                         <option *ngFor="let user of memberList" [value]="user.id">{{ user.name }}</option>
@@ -249,7 +249,7 @@
                 <button type="button" class="btn btn-outline-primary w-100 mt-2" (click)="addPaidUser()"
                     [disabled]="!selectedPaidUserId">Add Paid By</button>
 
-                <!-- List of Paid By Members -->
+
                 <div class="mt-3">
                     <h6>Paid By:</h6>
                     <ul class="list-group">
@@ -262,7 +262,7 @@
                     </ul>
                 </div>
 
-                <!-- Owed By Dropdown -->
+
                 <div class="form-floating mb-3">
                     <select class="form-select" [(ngModel)]="selectedOwedUserId">
                         <option *ngFor="let user of memberList" [value]="user.id">{{ user.name }}</option>
@@ -273,7 +273,7 @@
                 <button type="button" class="btn btn-outline-primary w-100 mt-2" (click)="addOwedUser()"
                     [disabled]="!selectedOwedUserId">Add Owed By</button>
 
-                <!-- List of Owed By Members -->
+
                 <div class="mt-3">
                     <h6>Owed By:</h6>
                     <ul class="list-group">
@@ -294,7 +294,7 @@
     </div>
 </div>
 
-<!-- Settle Up Modal -->
+
 <div class="modal fade" id="settleUpModal" tabindex="-1" aria-labelledby="settleUpModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -305,7 +305,8 @@
             <div class="modal-body">
                 <h6>Your Balances with Group Members</h6>
                 <ul class="list-group">
-                    <li *ngFor="let member of group.members" class="list-group-item d-flex justify-content-between align-items-center">
+                    <li *ngFor="let member of group.members"
+                        class="list-group-item d-flex justify-content-between align-items-center">
                         <span>{{ member.name }}</span>
                         <span>
                             <small class="text-muted">{{ getMemberBalance(member) }}</small>

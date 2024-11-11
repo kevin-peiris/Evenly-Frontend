@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
+
         <div class="col-md-3 col-lg-2 sidebar">
             <h6 class="text-muted mt-4">GROUPS</h6>
             <ul class="nav flex-column">
@@ -12,7 +12,7 @@
             </ul>
         </div>
 
-        <!-- Main Content -->
+
         <div class="col-md-6 col-lg-7 main-content">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h3>Dashboard</h3>
@@ -40,30 +40,32 @@
             <div class="mt-4">
                 <h5>YOU OWE</h5>
                 <ng-container *ngIf="youOweList.length > 0; else noOwe">
-                  <div *ngFor="let owe of youOweList">
-                    <p><strong>{{ owe.member.name }}</strong> - You owe <span class="text-danger">${{ owe.amount | number:'1.2-2' }}</span></p>
-                  </div>
+                    <div *ngFor="let owe of youOweList">
+                        <p><strong>{{ owe.member.name }}</strong> - You owe <span class="text-danger">${{ owe.amount |
+                                number:'1.2-2' }}</span></p>
+                    </div>
                 </ng-container>
                 <ng-template #noOwe>
-                  <p class="text-muted">You do not owe anything</p>
+                    <p class="text-muted">You do not owe anything</p>
                 </ng-template>
-              
+
                 <hr>
-              
+
                 <h5>YOU ARE OWED</h5>
                 <ng-container *ngIf="youAreOwedList.length > 0; else noOwed">
-                  <div *ngFor="let owed of youAreOwedList">
-                    <p><strong>{{ owed.member.name }}</strong> owes you <span class="text-success">${{ owed.amount | number:'1.2-2' }}</span></p>
-                  </div>
+                    <div *ngFor="let owed of youAreOwedList">
+                        <p><strong>{{ owed.member.name }}</strong> owes you <span class="text-success">${{ owed.amount |
+                                number:'1.2-2' }}</span></p>
+                    </div>
                 </ng-container>
                 <ng-template #noOwed>
-                  <p class="text-muted">No one owes you anything</p>
+                    <p class="text-muted">No one owes you anything</p>
                 </ng-template>
-              </div>
-              
+            </div>
+
         </div>
 
-        <!-- Right Sidebar -->
+
         <div class="col-md-3 col-lg-3">
             <div class="bg-light p-4 rounded">
                 <h6>Create New Group</h6>
@@ -75,7 +77,7 @@
     </div>
 </div>
 
-<!-- New Group Modal -->
+
 <div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -92,12 +94,12 @@
                     <label for="groupName">Group Name</label>
                 </div>
 
-                <!-- Admin Field -->
+
                 <div class="form-floating mb-3">
                     <h6>Admin: {{user.name}}(You)</h6>
                 </div>
 
-                <!-- Add Member Dropdown -->
+
                 <div class="form-floating mb-3">
                     <select class="form-select" [(ngModel)]="selectedUserId">
                         <option *ngFor="let user of userList" [value]="user.id">{{ user.name }}</option>
@@ -109,7 +111,7 @@
                     [disabled]="!selectedUserId">Add
                     Member</button>
 
-                <!-- List of Added Members -->
+
                 <div class="mt-3">
                     <h6>Members:</h6>
                     <ul class="list-group">

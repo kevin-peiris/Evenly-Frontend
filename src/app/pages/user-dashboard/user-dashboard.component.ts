@@ -15,21 +15,21 @@ import { GroupService } from '../../services/group.service';
   styleUrls: ['./user-dashboard.component.css']
 })
 export class UserDashboardComponent implements OnInit {
-  user: any = null;  // Store user data
-  groupList: any[] = [];  // List of groups the user belongs to
-  userList: any[] = [];  // List of other users
+  user: any = null;
+  groupList: any[] = [];
+  userList: any[] = [];
   expensesList: any[] = [];
 
   group = {
     name: '',
     admin: null,
     members: [] as any[]
-  };  // Current group details
+  };
   selectedUserId: number | null = null;
 
-  totalBalance = 0;  // User's total balance
-  youOwe = 0;  // Total amount the user owes
-  youAreOwed = 0;  // Total amount owed to the user
+  totalBalance = 0;
+  youOwe = 0;
+  youAreOwed = 0;
 
   constructor(
     private userService: UserService,
@@ -44,14 +44,13 @@ export class UserDashboardComponent implements OnInit {
 
       if (this.user && this.user.id) {
         this.group.admin = this.user;
-        this.loadGroupsAndUsers();  // Load groups and user data upon initialization
+        this.loadGroupsAndUsers();
       }
     });
   }
 
   async loadGroupsAndUsers() {
     try {
-      // Fetch groups related to the current user
       const groupsResponse = await fetch(`http://localhost:8080/group/member/${this.user.id}`);
       this.groupList = await groupsResponse.json();
     } catch (error) {
@@ -60,7 +59,6 @@ export class UserDashboardComponent implements OnInit {
     }
 
     try {
-      // Fetch all users and filter out the current user from the list
       const usersResponse = await fetch(`http://localhost:8080/users`);
       const users = await usersResponse.json();
       this.userList = users.filter((user: any) => user.id !== this.user.id);
@@ -76,7 +74,7 @@ export class UserDashboardComponent implements OnInit {
     const selectedUser = this.userList.find(user => user.id == this.selectedUserId);
     if (selectedUser && !this.group.members.some(member => member.id == selectedUser.id)) {
       this.group.members.push(selectedUser);
-      this.selectedUserId = null;  // Reset the selection after adding
+      this.selectedUserId = null;
     }
   }
 
@@ -116,25 +114,20 @@ export class UserDashboardComponent implements OnInit {
     this.youAreOwed = 0;
     this.expensesList = [];
 
-    // Step 1: Collect all expense data for each group
     const allExpensesPromises = this.groupList.map(async (group) => {
       try {
         const response = await fetch(`http://localhost:8080/expense/group/${group.id}`);
         const expenses = await response.json();
-        return expenses;  // Return expenses for this group
+        return expenses;
       } catch (error) {
         console.error(`Error fetching expenses for group ${group.id}:`, error);
-        return [];  // Return empty array if there's an error
+        return [];
       }
     });
 
-    // Wait for all expenses to be fetched
     const allExpensesLists = await Promise.all(allExpensesPromises);
-
-    // Flatten the array of expense lists into a single list of expenses
     this.expensesList = allExpensesLists.flat();
 
-    // Step 2: Process each expense in the consolidated expenses list
     this.expensesList.forEach((expense: { expenseUsers: any[] }) => {
       const currentUserRole = expense.expenseUsers.find((user: any) => user.user.id === this.user?.id);
 
@@ -156,10 +149,8 @@ export class UserDashboardComponent implements OnInit {
     });
 
     this.calculateMemberBalances();
-
   }
 
-  // Variables to store calculated balance information
   youOweList: { member: any; amount: number }[] = [];
   youAreOwedList: { member: any; amount: number }[] = [];
 
@@ -170,7 +161,6 @@ export class UserDashboardComponent implements OnInit {
     this.userList.forEach(member => {
       let balance = 0;
 
-      // Calculate balance between the current user and each member
       this.expensesList.forEach(expense => {
         const currentUserRole = expense.expenseUsers.find((user: { user: { id: any } }) => user.user.id === this.user.id);
         const memberRole = expense.expenseUsers.find((user: { user: { id: any } }) => user.user.id === member.id);
@@ -184,7 +174,6 @@ export class UserDashboardComponent implements OnInit {
         }
       });
 
-      // Sort the results into either "You owe" or "You are owed" lists
       if (balance > 0) {
         this.youAreOwedList.push({ member, amount: balance });
       } else if (balance < 0) {
@@ -192,5 +181,5 @@ export class UserDashboardComponent implements OnInit {
       }
     });
   }
-
 }
+

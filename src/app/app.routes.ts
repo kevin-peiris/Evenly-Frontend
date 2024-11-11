@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { AddCustomerComponent } from './pages/add-customer/add-customer.component';
-import { ManageCustomerComponent } from './pages/manage-customer/manage-customer.component';
 import { SignupPageComponent } from './pages/signup-page/signup-page.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
@@ -37,6 +35,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: '' // Redirect any undefined routes to homepage or a 404 page
+        redirectTo: ''
     }
 ];
