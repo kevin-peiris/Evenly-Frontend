@@ -1,39 +1,4 @@
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-3 col-lg-2">
-            <h2 class="mb-3">{{group.name}}</h2>
-        </div>
-
-
-        <div class="col-md-6 col-lg-7 main-content">
-
-            <div class="d-flex justify-content-between text-center p-3 rounded mb-4">
-                <div>
-                    <strong>Total Balance</strong><br />
-                    <span [ngClass]="{'text-success': totalBalance >= 0, 'text-danger': totalBalance < 0}">
-                        ${{ totalBalance | number:'1.2-2' }}
-                    </span>
-                </div>
-                <div>
-                    <strong>You Owe</strong><br />
-                    <span class="text-danger">
-                        ${{ youOwe | number:'1.2-2' }}
-                    </span>
-                </div>
-                <div>
-                    <strong>You Are Owed</strong><br />
-                    <span class="text-success">
-                        ${{ youAreOwed | number:'1.2-2' }}
-                    </span>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col">
-
-        </div>
-    </div>
+<div class="container-fluid">
 
     <div class="row">
 
@@ -48,7 +13,159 @@
             </ul>
         </div>
 
+
+        <div class="col-md-6 col-lg-7 main-content">
+            <div class="row">
+                <div class="col-md-3 col-lg-2">
+                    <h2 class="mb-3">{{group.name}}</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col main-content">
+
+                    <div class="d-flex justify-content-between text-center p-3 rounded mb-4">
+                        <div>
+                            <strong>Total Balance</strong><br />
+                            <span [ngClass]="{'text-success': totalBalance >= 0, 'text-danger': totalBalance < 0}">
+                                ${{ totalBalance | number:'1.2-2' }}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>You Owe</strong><br />
+                            <span class="text-danger">
+                                ${{ youOwe | number:'1.2-2' }}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>You Are Owed</strong><br />
+                            <span class="text-success">
+                                ${{ youAreOwed | number:'1.2-2' }}
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h5>Group Members</h5>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">Add
+                            Member</button>
+                    </div>
+
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            *ngFor="let member of group.members">
+                            <div>
+                                <span>{{ member.name }}</span>
+                                <small class="text-muted ms-2">({{ getMemberBalance(member) }})</small>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                (click)="removeMember(member)">Remove</button>
+                        </li>
+                    </ul>
+
+
+                </div>
+            </div>
+
+            <div class="row">
+
+
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <h5>Expenses</h5>
+                    <button class="btn btn-outline-primary mx-2" data-bs-toggle="modal"
+                        data-bs-target="#addExpenseModal">Add an Expense</button>
+                    <button class="btn btn-outline-success" data-bs-toggle="modal"
+                        data-bs-target="#settleUpModal">Settle Up</button>
+
+                </div>
+
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center clickable"
+                        *ngFor="let expense of expensesList" (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
+                        data-bs-target="#expenseDetailModal">
+                        <div>
+                            <span>{{ expense.description }}</span> -
+                            <span *ngIf="getUserRole(expense)?.role === 'PAID'">
+                                You paid ${{ getUserRole(expense)?.amount }} for this expense.
+                            </span>
+                            <span *ngIf="getUserRole(expense)?.role === 'OWED'">
+                                You owe ${{ getUserRole(expense)?.amount }} for this expense.
+                            </span>
+                        </div>
+                        <span class="d-flex align-items-center">
+                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount }}</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="col-md-3 col-lg-3">
+            <div class="p-4 rounded">
+                <h6>Create New Group</h6>
+                <p class="text-muted">Create Groups and add Friends to share Expenses.</p>
+                <button class="btn btn-primary btn-block" routerLink="/user-main/user-dashboard">Create
+                    new Group</button>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="row">
+
+        <div class="col-md-3 col-lg-2 sidebar">
+            <h6 class="text-muted mt-4">GROUPS</h6>
+            <ul class="nav flex-column">
+                <li class="nav-item clickable" *ngFor="let group of groupList">
+                    <a class="nav-link text-dark" (click)="goToGroup(group.id)">
+                        {{ group.name }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         <div class="col">
+            <div class="row">
+                <div class="col-md-3 col-lg-2">
+                    <h2 class="mb-3">{{group.name}}</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col main-content">
+
+                    <div class="d-flex justify-content-between text-center p-3 rounded mb-4">
+                        <div>
+                            <strong>Total Balance</strong><br />
+                            <span [ngClass]="{'text-success': totalBalance >= 0, 'text-danger': totalBalance < 0}">
+                                ${{ totalBalance | number:'1.2-2' }}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>You Owe</strong><br />
+                            <span class="text-danger">
+                                ${{ youOwe | number:'1.2-2' }}
+                            </span>
+                        </div>
+                        <div>
+                            <strong>You Are Owed</strong><br />
+                            <span class="text-success">
+                                ${{ youAreOwed | number:'1.2-2' }}
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col">
 
@@ -116,7 +233,7 @@
                     new Group</button>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 </div>
