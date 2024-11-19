@@ -62,7 +62,7 @@
                             *ngFor="let member of group.members">
                             <div>
                                 <span>{{ member.name }}</span>
-                                <small class="text-muted ms-2">({{ getMemberBalance(member) }})</small>
+                                <small class="text-muted ms-2">({{ getMemberBalance(member)}})</small>
                             </div>
                             <button type="button" class="btn btn-sm btn-outline-danger"
                                 (click)="removeMember(member)">Remove</button>
@@ -92,14 +92,14 @@
                         <div>
                             <span>{{ expense.description }}</span> -
                             <span *ngIf="getUserRole(expense)?.role === 'PAID'">
-                                You paid ${{ getUserRole(expense)?.amount }} for this expense.
+                                You paid ${{ getUserRole(expense)?.amount | number:'1.2-2'  }} for this expense.
                             </span>
                             <span *ngIf="getUserRole(expense)?.role === 'OWED'">
-                                You owe ${{ getUserRole(expense)?.amount }} for this expense.
+                                You owe ${{ getUserRole(expense)?.amount | number:'1.2-2'  }} for this expense.
                             </span>
                         </div>
                         <span class="d-flex align-items-center">
-                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount }}</span>
+                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount | number:'1.2-2'  }}</span>
                         </span>
                     </li>
                 </ul>
@@ -133,7 +133,7 @@
 
             <div class="modal-body" *ngIf="selectedExpense">
                 <h6>{{ selectedExpense?.description }}</h6>
-                <p><strong>Amount:</strong> ${{ selectedExpense?.amount }}</p>
+                <p><strong>Amount:</strong> ${{ selectedExpense?.amount | number:'1.2-2'  }}</p>
                 <p><strong>Paid By:</strong> {{ getPayerNames(selectedExpense) }}</p>
 
                 <h6>Owed By:</h6>
@@ -142,10 +142,10 @@
                         class="list-group-item d-flex justify-content-between">
                         <span>{{ user.user.name }}</span>
                         <span *ngIf="user.expenseUserType === 'OWED'">
-                            Owes: ${{ user.amount }}
+                            Owes: ${{ user.amount | number:'1.2-2'  }}
                         </span>
                         <span *ngIf="user.expenseUserType === 'PAID'">
-                            Paid: ${{ user.amount }}
+                            Paid: ${{ user.amount | number:'1.2-2'  }}
                         </span>
                     </li>
                 </ul>

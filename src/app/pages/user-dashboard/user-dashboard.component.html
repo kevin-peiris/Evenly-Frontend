@@ -86,10 +86,10 @@
                                         <div>
                                             <span>{{ expense.description }}</span> -
                                             <span *ngIf="getUserRole(expense)?.role === 'PAID'">
-                                                You paid ${{ getUserRole(expense)?.amount }} for this expense.
+                                                You paid ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this expense.
                                             </span>
                                             <span *ngIf="getUserRole(expense)?.role === 'OWED'">
-                                                You owe ${{ getUserRole(expense)?.amount }} for this expense.
+                                                You owe ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this expense.
                                             </span>
                                         </div>
                                         <span class="d-flex align-items-center">
@@ -200,10 +200,10 @@
                         class="list-group-item d-flex justify-content-between">
                         <span>{{ user.user.name }}</span>
                         <span *ngIf="user.expenseUserType === 'OWED'">
-                            Owes: ${{ user.amount }}
+                            Owes: ${{ user.amount | number:'1.2-2' }}
                         </span>
                         <span *ngIf="user.expenseUserType === 'PAID'">
-                            Paid: ${{ user.amount }}
+                            Paid: ${{ user.amount | number:'1.2-2' }}
                         </span>
                     </li>
                 </ul>

@@ -147,12 +147,13 @@ export class GroupPageComponent implements OnInit {
 
 
     if (balance > 0) {
-      return `Owes you $${balance}`;
+      return `Owes you $${balance.toFixed(2)}`;
     } else if (balance < 0) {
-      return `You owe $${Math.abs(balance)}`;
+      return `You owe $${Math.abs(balance).toFixed(2)}`;
     } else {
       return `Settled up`;
     }
+    
   }
 
 
