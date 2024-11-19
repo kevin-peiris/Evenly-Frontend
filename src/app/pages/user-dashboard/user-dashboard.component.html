@@ -63,7 +63,55 @@
                 </ng-template>
             </div>
 
+            <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
+                <h3>Groups</h3>
+            </div>
+            <div class="accordion mt-3" id="accordionGroup">
+                <div class="accordion-item" *ngFor="let group of groupList; let i = index">
+                    <h2 class="accordion-header" id="heading{{ i }}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#collapse' + i" [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
+                            [attr.aria-controls]="'collapse' + i">
+                            {{ group.name }}
+                        </button>
+                    </h2>
+                    <div [id]="'collapse' + i" class="accordion-collapse collapse"
+                        [attr.aria-labelledby]="'heading' + i">
+                        <div class="accordion-body">
+                            <ng-container *ngIf="getExpensesByGroup(group.id).length > 0; else noExpenses">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center clickable"
+                                        *ngFor="let expense of getExpensesByGroup(group.id)" (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
+                                        data-bs-target="#expenseDetailModal">
+                                        <div>
+                                            <span>{{ expense.description }}</span> -
+                                            <span *ngIf="getUserRole(expense)?.role === 'PAID'">
+                                                You paid ${{ getUserRole(expense)?.amount }} for this expense.
+                                            </span>
+                                            <span *ngIf="getUserRole(expense)?.role === 'OWED'">
+                                                You owe ${{ getUserRole(expense)?.amount }} for this expense.
+                                            </span>
+                                        </div>
+                                        <span class="d-flex align-items-center">
+                                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount }}</span>
+                                        </span>
+                                    </li>
+
+
+                                </ul>
+                            </ng-container>
+                            <ng-template #noExpenses>
+                                <p class="text-muted">No expenses recorded for this group.</p>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
+
+
 
 
         <div class="col-md-3 col-lg-3">
@@ -127,6 +175,42 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary w-100" [disabled]="!group.name"
                     (click)="createGroup()">Create Group</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="expenseDetailModal" tabindex="-1" aria-labelledby="expenseDetailModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="expenseDetailModalLabel">Expense Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" *ngIf="selectedExpense">
+                <h6>{{ selectedExpense?.description }}</h6>
+                <p><strong>Amount:</strong> ${{ selectedExpense?.amount }}</p>
+                <p><strong>Paid By:</strong> {{ getPayerNames(selectedExpense) }}</p>
+
+                <h6>Owed By:</h6>
+                <ul class="list-group mb-3">
+                    <li *ngFor="let user of selectedExpense?.expenseUsers"
+                        class="list-group-item d-flex justify-content-between">
+                        <span>{{ user.user.name }}</span>
+                        <span *ngIf="user.expenseUserType === 'OWED'">
+                            Owes: ${{ user.amount }}
+                        </span>
+                        <span *ngIf="user.expenseUserType === 'PAID'">
+                            Paid: ${{ user.amount }}
+                        </span>
+                    </li>
+                </ul>
+
+
+                <button *ngIf="getUserRole(selectedExpense)?.role === 'OWED'" class="btn btn-success w-100"
+                    (click)="settleUp(selectedExpense)">Settle Up</button>
             </div>
         </div>
     </div>

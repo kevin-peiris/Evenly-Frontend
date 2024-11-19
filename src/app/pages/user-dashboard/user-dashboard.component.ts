@@ -181,5 +181,73 @@ export class UserDashboardComponent implements OnInit {
       }
     });
   }
+
+  getExpensesByGroup(groupId: number) {
+    return this.expensesList.filter(expense => expense.groupId === groupId);
+  }
+
+  getUserRole(expense: any): { role: 'PAID' | 'OWED', amount: number } | null {
+
+    const currentUserExpense = expense.expenseUsers.find((expUser: any) => expUser.user.id === this.user.id);
+
+
+    if (currentUserExpense) {
+      const role = currentUserExpense.expenseUserType === 'PAID' ? 'PAID' : 'OWED';
+      const amount = currentUserExpense.amount;
+      return { role, amount };
+    }
+
+    return null;
+  }
+
+  selectedExpense: any;
+
+
+  openExpenseDetail(expense: any) {
+    this.selectedExpense = expense;
+  }
+
+
+  getPayerNames(expense: any): string {
+    // Check if expense is defined
+    if (!expense || !expense.expenseUsers) {
+      return 'No data available';
+    }
+
+
+    return expense.expenseUsers
+      .filter((user: any) => user.expenseUserType === 'PAID')
+      .map((user: any) => user.user.name)
+      .join(', ');
+  }
+
+
+
+  async settleUp(expense: any) {
+    console.log('Settling up expense:', expense);
+
+    try {
+
+      const response = await fetch(`http://localhost:8080/settleup/expense/${expense.id}/user/${this.user.id}`, {
+        method: 'POST',
+      });
+
+
+      if (response.ok) {
+        alert("Expense settled successfully!");
+      } else {
+        alert("Failed to settle the expense. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error settling the expense:", error);
+      alert("Error settling the expense. Please check your connection.");
+    }
+
+
+    await this.loadGroupsAndUsers();
+  }
+  
 }
+
+
 
