@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { NavBarComponent } from './common/nav-bar-sign/nav-bar.component';
@@ -10,6 +10,11 @@ import { NavBarComponent } from './common/nav-bar-sign/nav-bar.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Expense-Share';
+  
+  ngOnInit(): void {
+    //initFlowbite();
+  }
+  
 }

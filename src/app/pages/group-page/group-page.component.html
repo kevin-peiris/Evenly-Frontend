@@ -2,10 +2,15 @@
 
     <div class="row">
 
-        <div class="col-md-3 col-lg-2 sidebar">
-            <h6 class="text-muted mt-4">GROUPS</h6>
-            <ul class="nav flex-column">
-                <li class="nav-item clickable" *ngFor="let group of groupList">
+        <div class="col-md-3 col-lg-2 sidebar card card border-primary mb-3 border-3 mx-3">
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <h4>GROUPS</h4>
+            </div>
+            
+            <ul class="nav flex-column list-group">
+                <li class="nav-item clickable list-group-item list-group-item-action list-group-item-primary d-flex align-items-center justify-content-center"
+                    *ngFor="let group of groupList" style="height: 40px;">
                     <a class="nav-link text-dark" (click)="goToGroup(group.id)">
                         {{ group.name }}
                     </a>
@@ -13,11 +18,11 @@
             </ul>
         </div>
 
-
-        <div class="col-md-6 col-lg-7 main-content">
+        <div class="col-md-6 col-lg-7 main-content card card border-primary mb-3 border-3">
             <div class="row">
-                <div class="col-md-3 col-lg-2">
-                    <h2 class="mb-3">{{group.name}}</h2>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <h4 class="mb-3">{{group.name}}</h4>
                 </div>
             </div>
 
@@ -25,23 +30,37 @@
                 <div class="col main-content">
 
                     <div class="d-flex justify-content-between text-center p-3 rounded mb-4">
-                        <div>
-                            <strong>Total Balance</strong><br />
-                            <span [ngClass]="{'text-success': totalBalance >= 0, 'text-danger': totalBalance < 0}">
-                                ${{ totalBalance | number:'1.2-2' }}
-                            </span>
+                        <div class="col mx-2">
+                            <div class="card border-primary border-3 "
+                                [ngClass]="{'bg-success border-success': totalBalance >= 0, 'bg-danger border-danger': totalBalance < 0}">
+                                <div class="card-body text-light">
+                                    <h5 class="card-title">Total Balance</h5>
+                                    <span>
+                                        ${{ totalBalance | number:'1.2-2' }}
+                                    </span>
+                                </div>
+                            </div>
+        
                         </div>
-                        <div>
-                            <strong>You Owe</strong><br />
-                            <span class="text-danger">
-                                ${{ youOwe | number:'1.2-2' }}
-                            </span>
+                        <div class="col mx-2">
+                            <div class="card border-danger bg-danger border-3">
+                                <div class="card-body text-light">
+                                    <h5 class="card-title">You Owe</h5>
+                                    <span>
+                                        ${{ youOwe | number:'1.2-2' }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <strong>You Are Owed</strong><br />
-                            <span class="text-success">
-                                ${{ youAreOwed | number:'1.2-2' }}
-                            </span>
+                        <div class="col mx-2">
+                            <div class="card border-success bg-success border-3">
+                                <div class="card-body text-light">
+                                    <h5 class="card-title">You Are Owed</h5>
+                                    <span>
+                                        ${{ youAreOwed | number:'1.2-2' }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -85,36 +104,42 @@
 
                 </div>
 
-                <ul class="list-group">
+                <ul class="list-group mb-3 mx-1">
                     <li class="list-group-item d-flex justify-content-between align-items-center clickable"
                         *ngFor="let expense of expensesList" (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
                         data-bs-target="#expenseDetailModal">
                         <div>
-                            <span>{{ expense.description }}</span> -
+                            <span>{{ expense.date | date: 'yyyy-MM-dd' }}</span>
+                            <span>{{ expense.description }}</span>
                             <span *ngIf="getUserRole(expense)?.role === 'PAID'">
-                                You paid ${{ getUserRole(expense)?.amount | number:'1.2-2'  }} for this expense.
+                                - You paid ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this expense.
                             </span>
                             <span *ngIf="getUserRole(expense)?.role === 'OWED'">
-                                You owe ${{ getUserRole(expense)?.amount | number:'1.2-2'  }} for this expense.
+                                - You owe ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this expense.
                             </span>
                         </div>
                         <span class="d-flex align-items-center">
-                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount | number:'1.2-2'  }}</span>
+                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount | number:'1.2-2'
+                                }}</span>
                         </span>
                     </li>
                 </ul>
             </div>
         </div>
 
-
-        <div class="col-md-3 col-lg-3">
-            <div class="p-4 rounded">
-                <h6>Create New Group</h6>
-                <p class="text-muted">Create Groups and add Friends to share Expenses.</p>
-                <button class="btn btn-primary btn-block" routerLink="/user-main/user-dashboard">Create
-                    new Group</button>
-
+        <div class="col-md-3 col-lg-2 card card border-primary mb-3 border-3 mx-3">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <h4>Guide</h4>
             </div>
+
+            <p class="text-muted">Create Groups and add Friends to share Expenses.</p>
+            <button class="btn btn-primary btn-block" routerLink="/user-main/user-dashboard">Create
+                new Group</button>
+
+            <p class="text-muted mt-2">Track shared expenses and keep everyone informed.</p>
+            <p class="text-muted">Easily settle balances among group members.</p>
+            <p class="text-muted">Monitor payments made by group members in real time.</p>
+            <p class="text-muted">Invite friends to join and collaborate on group expenses.</p>
         </div>
     </div>
 
@@ -133,7 +158,8 @@
 
             <div class="modal-body" *ngIf="selectedExpense">
                 <h6>{{ selectedExpense?.description }}</h6>
-                <p><strong>Amount:</strong> ${{ selectedExpense?.amount | number:'1.2-2'  }}</p>
+                <p><strong>Date:</strong> {{ selectedExpense?.date | date: 'yyyy-MM-dd' }}</p>
+                <p><strong>Amount:</strong> ${{ selectedExpense?.amount | number:'1.2-2' }}</p>
                 <p><strong>Paid By:</strong> {{ getPayerNames(selectedExpense) }}</p>
 
                 <h6>Owed By:</h6>
@@ -142,10 +168,10 @@
                         class="list-group-item d-flex justify-content-between">
                         <span>{{ user.user.name }}</span>
                         <span *ngIf="user.expenseUserType === 'OWED'">
-                            Owes: ${{ user.amount | number:'1.2-2'  }}
+                            Owes: ${{ user.amount | number:'1.2-2' }}
                         </span>
                         <span *ngIf="user.expenseUserType === 'PAID'">
-                            Paid: ${{ user.amount | number:'1.2-2'  }}
+                            Paid: ${{ user.amount | number:'1.2-2' }}
                         </span>
                     </li>
                 </ul>
@@ -192,9 +218,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addExpenseModalLabel">Add Expense</h5>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <label class="mb-3">Date : {{ newExpense.date| date:'yyyy-MM-dd' }}</label>
                 <div class="form-group">
                     <label for="expenseDescription">Description</label>
                     <input [(ngModel)]="newExpense.description" class="form-control" id="expenseDescription"
@@ -244,11 +272,11 @@
                             </select>
                             <label for="memberDropdown">Add Paid By</label>
                         </div>
-        
+
                         <button type="button" class="btn btn-outline-primary w-100 mt-2" (click)="addPaidUser()"
                             [disabled]="!selectedPaidUserId">Add Paid By</button>
-        
-        
+
+
                         <div class="mt-3">
                             <h6>Paid By:</h6>
                             <ul class="list-group">
@@ -269,11 +297,11 @@
                             </select>
                             <label for="memberDropdown">Add Owed By</label>
                         </div>
-        
+
                         <button type="button" class="btn btn-outline-primary w-100 mt-2" (click)="addOwedUser()"
                             [disabled]="!selectedOwedUserId">Add Owed By</button>
-        
-        
+
+
                         <div class="mt-3">
                             <h6>Owed By:</h6>
                             <ul class="list-group">
@@ -290,10 +318,10 @@
 
 
 
-                
 
 
-                
+
+
 
                 <div class="modal-footer mt-1">
                     <button type="button" class="btn btn-primary" (click)="addExpense()">Add Expense</button>

@@ -1,43 +1,65 @@
 <div class="container-fluid">
     <div class="row">
 
-        <div class="col-md-3 col-lg-2 sidebar">
-            <h6 class="text-muted mt-4">GROUPS</h6>
-            <ul class="nav flex-column">
-                <li class="nav-item clickable" *ngFor="let group of groupList">
+        <div class="col-md-3 col-lg-2 sidebar card card border-primary mb-3 border-3 mx-3">
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <h4>GROUPS</h4>
+            </div>
+           
+            <ul class="nav flex-column list-group">
+                <li class="nav-item clickable list-group-item list-group-item-action list-group-item-primary d-flex align-items-center justify-content-center"
+                    *ngFor="let group of groupList" style="height: 40px;">
                     <a class="nav-link text-dark" (click)="goToGroup(group.id)">
                         {{ group.name }}
                     </a>
                 </li>
             </ul>
+
         </div>
 
 
-        <div class="col-md-6 col-lg-7 main-content">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h3>Dashboard</h3>
+        <div class="col-md-6 col-lg-7 main-content card card border-primary mb-3 border-3">
+
+            <div class="d-flex justify-content-between align-items-center mt-3 mx-3">
+                <h4>Dashboard</h4>
             </div>
             <div class="d-flex justify-content-between text-center p-3 rounded">
-                <div>
-                    <strong>Total Balance</strong><br />
-                    <span [ngClass]="{'text-success': totalBalance >= 0, 'text-danger': totalBalance < 0}">
-                        ${{ totalBalance | number:'1.2-2' }}
-                    </span>
+                <div class="col mx-2">
+                    <div class="card border-primary border-3 "
+                        [ngClass]="{'bg-success border-success': totalBalance >= 0, 'bg-danger border-danger': totalBalance < 0}">
+                        <div class="card-body text-light">
+                            <h5 class="card-title">Total Balance</h5>
+                            <span>
+                                ${{ totalBalance | number:'1.2-2' }}
+                            </span>
+                        </div>
+                    </div>
+
                 </div>
-                <div>
-                    <strong>You Owe</strong><br />
-                    <span class="text-danger">
-                        ${{ youOwe | number:'1.2-2' }}
-                    </span>
+                <div class="col mx-2">
+                    <div class="card border-danger bg-danger border-3">
+                        <div class="card-body text-light">
+                            <h5 class="card-title">You Owe</h5>
+                            <span>
+                                ${{ youOwe | number:'1.2-2' }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <strong>You Are Owed</strong><br />
-                    <span class="text-success">
-                        ${{ youAreOwed | number:'1.2-2' }}
-                    </span>
+                <div class="col mx-2">
+                    <div class="card border-success bg-success border-3">
+                        <div class="card-body text-light">
+                            <h5 class="card-title">You Are Owed</h5>
+                            <span>
+                                ${{ youAreOwed | number:'1.2-2' }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="mt-4">
+
+            <div class="mt-4 mx-3">
                 <h5>YOU OWE</h5>
                 <ng-container *ngIf="youOweList.length > 0; else noOwe">
                     <div *ngFor="let owe of youOweList">
@@ -63,10 +85,10 @@
                 </ng-template>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-3 mt-3">
-                <h3>Groups</h3>
+            <div class="d-flex justify-content-between align-items-center mb-3 mt-3 mx-3">
+                <h4>Groups</h4>
             </div>
-            <div class="accordion mt-3" id="accordionGroup">
+            <div class="accordion mt-3 mb-3" id="accordionGroup">
                 <div class="accordion-item" *ngFor="let group of groupList; let i = index">
                     <h2 class="accordion-header" id="heading{{ i }}">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -81,19 +103,23 @@
                             <ng-container *ngIf="getExpensesByGroup(group.id).length > 0; else noExpenses">
                                 <ul class="list-group">
                                     <li class="list-group-item d-flex justify-content-between align-items-center clickable"
-                                        *ngFor="let expense of getExpensesByGroup(group.id)" (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
+                                        *ngFor="let expense of getExpensesByGroup(group.id)"
+                                        (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
                                         data-bs-target="#expenseDetailModal">
                                         <div>
                                             <span>{{ expense.description }}</span> -
                                             <span *ngIf="getUserRole(expense)?.role === 'PAID'">
-                                                You paid ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this expense.
+                                                You paid ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this
+                                                expense.
                                             </span>
                                             <span *ngIf="getUserRole(expense)?.role === 'OWED'">
-                                                You owe ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this expense.
+                                                You owe ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this
+                                                expense.
                                             </span>
                                         </div>
                                         <span class="d-flex align-items-center">
-                                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount }}</span>
+                                            <span class="badge bg-success rounded-pill me-2">${{ expense.amount
+                                                }}</span>
                                         </span>
                                     </li>
 
@@ -114,13 +140,19 @@
 
 
 
-        <div class="col-md-3 col-lg-3">
-            <div class="p-4 rounded">
-                <h6>Create New Group</h6>
-                <p class="text-muted">Create Groups and add Friends to share Expenses.</p>
-                <button class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#addGroupModal">Create
-                    new Group</button>
+        <div class="col-md-3 col-lg-2 card card border-primary mb-3 border-3 mx-3">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <h4>Guide</h4>
             </div>
+
+            <p class="text-muted">Create Groups and add Friends to share Expenses.</p>
+            <button class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#addGroupModal">Create
+                new Group</button>
+
+            <p class="text-muted mt-2">Track shared expenses and keep everyone informed.</p>
+            <p class="text-muted">Easily settle balances among group members.</p>
+            <p class="text-muted">Monitor payments made by group members in real time.</p>
+            <p class="text-muted">Invite friends to join and collaborate on group expenses.</p>
         </div>
     </div>
 </div>

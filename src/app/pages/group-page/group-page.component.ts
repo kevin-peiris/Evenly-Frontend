@@ -28,6 +28,7 @@ export class GroupPageComponent implements OnInit {
 
   newExpense = {
     description: '',
+    date:new Date().toISOString(),
     amount: 0,
     paidBy: [] as any[],
     owedBy: [] as any[],
@@ -78,6 +79,8 @@ export class GroupPageComponent implements OnInit {
     try {
       const expensesResponse = await fetch(`http://localhost:8080/expense/group/${this.group.id}`);
       this.expensesList = await expensesResponse.json();
+    
+      
     } catch (error) {
       this.expensesList = [];
     }

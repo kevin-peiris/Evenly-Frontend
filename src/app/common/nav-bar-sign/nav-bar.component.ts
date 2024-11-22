@@ -3,6 +3,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import Swal from 'sweetalert2'
 
 declare var bootstrap: any;
 
@@ -15,7 +16,7 @@ declare var bootstrap: any;
 })
 export class NavBarComponent {
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) { }
 
   private userInput: any = {
     email: '',
@@ -79,9 +80,19 @@ export class NavBarComponent {
       this.userInput.email = "";
       this.userInput.password = "";
 
-      const modalInstance = bootstrap.Modal.getInstance(this.logInModal.nativeElement) || 
-                            new bootstrap.Modal(this.logInModal.nativeElement);
+      const modalInstance = bootstrap.Modal.getInstance(this.logInModal.nativeElement) ||
+        new bootstrap.Modal(this.logInModal.nativeElement);
       modalInstance.hide();
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Login Successfully!",
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      
       this.router.navigate(['/user-main/user-dashboard']);
     }
   }

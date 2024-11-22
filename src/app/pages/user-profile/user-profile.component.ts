@@ -6,6 +6,7 @@ import { FormsModule, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-profile',
@@ -45,29 +46,49 @@ export class UserProfileComponent implements OnInit {
   @ViewChild('passwordMsg') passwordMsg!: ElementRef;
 
   async updateDetails() {
+    this.emailMsg.nativeElement.innerText = '';
+    this.passwordMsg.nativeElement.innerText = '';
+  
     if (!this.isValidEmail(this.user.email)) {
       this.emailMsg.nativeElement.style.color = 'red';
       this.emailMsg.nativeElement.innerText = 'Invalid Email!';
-      this.user.email = "";
-    } else if (!this.isValidPassword(this.user.password)) {
+      return;
+    }
+
+    if (!this.isValidPassword(this.user.password)) {
       this.passwordMsg.nativeElement.style.color = 'red';
-      this.passwordMsg.nativeElement.innerText = 'Invalid Password!';
-      this.user.password = "";
+      this.passwordMsg.nativeElement.innerText =
+        'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.';
+      return;
+    }
+  
+    const currentUser = this.userService.getUser();
+    if (currentUser?.email === this.user.email) {
+      console.log("Email has not been changed. Skipping API check.");
     } else if (await this.callApiWithEmail(this.user.email)) {
       this.emailMsg.nativeElement.style.color = 'red';
-      this.emailMsg.nativeElement.innerText = 'Email Already in the System!';
-      this.user = { name: "", email: "", password: "" };
-    } else {
-      this.http.put("http://localhost:8080/users/update", this.user, { responseType: 'text' })
+      this.emailMsg.nativeElement.innerText = 'Email is already in the system!';
+      return;
+    }
+  
+    this.http
+      .put("http://localhost:8080/users/update", this.user, {
+        responseType: 'text',
+      })
       .subscribe((data) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Profile Updated Successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.userService.setUser(this.user);
         this.router.navigate(['/user-main/user-dashboard']);
       });
-
-    }
-
-   
   }
+  
+  
 
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,9 +96,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   private isValidPassword(password: string): boolean {
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return passwordRegex.test(password);
   }
+  
 
   async callApiWithEmail(email: string): Promise<boolean> {
     try {

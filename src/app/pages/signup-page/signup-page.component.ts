@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
 import { UserService } from '../../services/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-signup-page',
@@ -61,7 +62,14 @@ export class SignupPageComponent {
         .subscribe((data) => {
           this.userService.setUser(this.signUser);
           this.signUser = { name: "", email: "", password: "" };
-          this.router.navigate(['/user-main/user-dashboard']);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Sign-up Successfully!",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.router.navigate([' ']);
         });
     }
   }
