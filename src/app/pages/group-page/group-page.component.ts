@@ -22,7 +22,6 @@ import Swal from 'sweetalert2';
 export class GroupPageComponent implements OnInit {
   group: any;
   user: any;
-  img = 'house.png';
   groupList: any[] = [];
   memberList: any[] = [];
   userList: any[] = [];

@@ -107,9 +107,6 @@
                                         (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
                                         data-bs-target="#expenseDetailModal">
                                         <div>
-                                            
-                                            
-                                            
                                             <span>{{ expense.description }}</span> -
                                             <span *ngIf="getUserRole(expense)?.role === 'PAID'">
                                                 You paid ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this
@@ -226,6 +223,7 @@
 
             <div class="modal-body" *ngIf="selectedExpense">
                 <h6>{{ selectedExpense?.description }}</h6>
+                <p><strong>Date:</strong> {{ selectedExpense?.date | date: 'yyyy-MM-dd' }}</p>
                 <p><strong>Amount:</strong> ${{ selectedExpense?.amount }}</p>
                 <p><strong>Paid By:</strong> {{ getPayerNames(selectedExpense) }}</p>
 

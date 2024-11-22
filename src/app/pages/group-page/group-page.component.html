@@ -103,15 +103,12 @@
                         data-bs-target="#settleUpModal">Settle Up</button>
 
                 </div>
-                <img [src]="img" class="img-fluid" alt="Calander Image">
 
                 <ul class="list-group mb-3 mx-1">
                     <li class="list-group-item d-flex justify-content-between align-items-center clickable"
                         *ngFor="let expense of expensesList" (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
                         data-bs-target="#expenseDetailModal">
                         <div>
-                            <span><img src="calender.png" class="img-fluid" alt="Calander Image"></span>
-                            <span>{{ expense.date | date: 'MM-dd' }}</span>
                             <span>{{ expense.description }}</span>
                             <span *ngIf="getUserRole(expense)?.role === 'PAID'">
                                 - You paid ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this expense.

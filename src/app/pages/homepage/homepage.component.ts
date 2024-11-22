@@ -18,7 +18,7 @@ export class HomepageComponent implements OnInit {
 
   mainTitle = 'Less stress when sharing expenses on trips.';
   mainDescription = 'Keep track of your shared expenses and balances with housemates, trips, groups, friends, and family.';
-  mainImage = 'calender.png';
+  mainImage = 'house.png';
   mainColor = 'text-primary';
 
   ngOnInit() {
