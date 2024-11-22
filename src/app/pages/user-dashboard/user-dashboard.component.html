@@ -27,8 +27,8 @@
             <div class="d-flex justify-content-between text-center p-3 rounded">
                 <div class="col mx-2">
                     <div class="card border-primary border-3 "
-                        [ngClass]="{'bg-success border-success': totalBalance >= 0, 'bg-danger border-danger': totalBalance < 0}">
-                        <div class="card-body text-light">
+                        [ngClass]="{'border-success': totalBalance >= 0, 'border-danger': totalBalance < 0}">
+                        <div class="card-body" [ngClass]="{'text-success': totalBalance >= 0, 'text-danger': totalBalance < 0}">
                             <h5 class="card-title">Total Balance</h5>
                             <span>
                                 ${{ totalBalance | number:'1.2-2' }}
@@ -38,8 +38,8 @@
 
                 </div>
                 <div class="col mx-2">
-                    <div class="card border-danger bg-danger border-3">
-                        <div class="card-body text-light">
+                    <div class="card border-danger border-3">
+                        <div class="card-body text-danger">
                             <h5 class="card-title">You Owe</h5>
                             <span>
                                 ${{ youOwe | number:'1.2-2' }}
@@ -48,8 +48,8 @@
                     </div>
                 </div>
                 <div class="col mx-2">
-                    <div class="card border-success bg-success border-3">
-                        <div class="card-body text-light">
+                    <div class="card border-success border-3">
+                        <div class="card-body text-success">
                             <h5 class="card-title">You Are Owed</h5>
                             <span>
                                 ${{ youAreOwed | number:'1.2-2' }}
@@ -107,6 +107,9 @@
                                         (click)="openExpenseDetail(expense)" data-bs-toggle="modal"
                                         data-bs-target="#expenseDetailModal">
                                         <div>
+                                            
+                                            
+                                            
                                             <span>{{ expense.description }}</span> -
                                             <span *ngIf="getUserRole(expense)?.role === 'PAID'">
                                                 You paid ${{ getUserRole(expense)?.amount | number:'1.2-2' }} for this
