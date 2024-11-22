@@ -336,17 +336,35 @@ export class GroupPageComponent implements OnInit {
   async addExpense() {
 
     if (!this.group || this.newExpense.amount <= 0 || !this.newExpense.description) {
-      alert("Please provide a valid expense description and amount.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Please provide a valid expense description and amount.",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
 
 
     if (this.newExpense.splitType === 'PERCENTAGE' && !this.validatePercentages()) {
-      alert("Percentages must add up to 100.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Percentages must add up to 100.",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
     if (this.newExpense.splitType === 'CUSTOM' && !this.validateCustomAmounts()) {
-      alert("Custom amounts must add up to the total amount.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Custom amounts must add up to the total amount.",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
 
@@ -364,13 +382,24 @@ export class GroupPageComponent implements OnInit {
 
     try {
       const response = await lastValueFrom(this.http.post("http://localhost:8080/expense", expensePayload, { responseType: 'text' }));
-      alert(response);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: response,
+        showConfirmButton: false,
+        timer: 1500
+      });
       this.loadExpenses();
       this.resetExpenseForm();
       this.loadGroupsUsersExpenses();
     } catch (error) {
-      console.error("Error adding expense:", error);
-      alert("Error adding expense. Please try again.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error adding expense. Please try again.",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   }
 

@@ -35,7 +35,9 @@ export class NavBarUserComponent implements OnInit {
       if (result.isConfirmed) {
         Swal.fire({
           title: "You have signed out successfully!",
-          icon: "success"
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1500
         }).then(() => {
           this.userService.setUser(null);
           this.router.navigate([' ']);
