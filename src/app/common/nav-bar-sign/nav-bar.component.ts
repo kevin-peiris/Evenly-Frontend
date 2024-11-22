@@ -146,12 +146,30 @@ export class NavBarComponent {
         });
 
         if (response.ok) {
-          alert("OTP sent to your email.");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "OTP sent to your email.",
+            showConfirmButton: false,
+            timer: 1500
+          });
         } else {
-          throw new Error("Error sending OTP.");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Error sending OTP.",
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       } catch (error) {
-        alert("Error: " + (error as Error).message);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error "+ (error as Error).message,
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     }
   }
@@ -172,12 +190,25 @@ export class NavBarComponent {
         }
 
         const data = await response.text();
-        alert(data);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: data,
+          showConfirmButton: false,
+          timer: 1500
+        });
+        
         this.otp = '';
         this.newPassword = '';
         this.forgotUser = null;
       } catch (error) {
-        alert("Error: " + (error as Error).message);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error "+ (error as Error).message,
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     }
   }

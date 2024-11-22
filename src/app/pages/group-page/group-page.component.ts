@@ -10,6 +10,7 @@ import { UserService } from '../../services/user.service';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { log } from 'node:console';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-group-page',
@@ -172,7 +173,13 @@ export class GroupPageComponent implements OnInit {
       const groupResponse = await fetch(`http://localhost:8080/group/${groupId}`);
       this.groupService.setGroup(await groupResponse.json());
     } catch (error) {
-      alert("Error routing");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error routing to group",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
     this.loadGroupsUsersExpenses();
@@ -183,7 +190,13 @@ export class GroupPageComponent implements OnInit {
 
   addMember() {
     if (this.user.id !== this.group.admin.id) {
-      alert("Only the admin can add members to this group.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Only the admin can add members to this group.",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
 
@@ -200,10 +213,22 @@ export class GroupPageComponent implements OnInit {
   removeMember(member: any) {
 
     if (this.user.id !== this.group.admin.id) {
-      alert("Only the admin can remove members from this group.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Only the admin can remove members from this group.",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     } else if (member.id == this.group.admin.id) {
-      alert("Admin cannot remove himself from this group he has to delete it.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Admin cannot remove himself from this group he has to delete it.",
+        showConfirmButton: false,
+        timer: 1500
+      });
       return;
     }
 
@@ -269,13 +294,30 @@ export class GroupPageComponent implements OnInit {
 
 
       if (response.ok) {
-        alert("Expense settled successfully!");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Expense settled successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
       } else {
-        alert("Failed to settle the expense. Please try again.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed to settle the expense. Please try again.",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     } catch (error) {
-      console.error("Error settling the expense:", error);
-      alert("Error settling the expense. Please check your connection.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error settling the expense. Please check your connection.",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
 
 

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { GroupService } from '../../services/group.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -92,7 +93,13 @@ export class UserDashboardComponent implements OnInit {
         console.error("Error creating group:", error);
       }
     } else {
-      alert("Please fill in all group details.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Please fill in all group details.",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   }
 
@@ -103,8 +110,13 @@ export class UserDashboardComponent implements OnInit {
       this.groupService.setGroup(groupData);
       this.router.navigate(['/user-main/user-group']);
     } catch (error) {
-      console.error("Error navigating to group:", error);
-      alert("Error routing");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error routing to group",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   }
 
@@ -234,16 +246,31 @@ export class UserDashboardComponent implements OnInit {
 
 
       if (response.ok) {
-        alert("Expense settled successfully!");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Expense settled successfully!",
+          showConfirmButton: false,
+          timer: 1500
+        });
       } else {
-        alert("Failed to settle the expense. Please try again.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Failed to settle the expense. Please try again.",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     } catch (error) {
-      console.error("Error settling the expense:", error);
-      alert("Error settling the expense. Please check your connection.");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Error settling the expense. Please check your connection.",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
-
-
     await this.loadGroupsAndUsers();
   }
   
